@@ -11,7 +11,27 @@ function App() {
     setInput("");
   };
   const calculate = () => {
-    setInput(eval(input).toString());
+    try {
+      const operators = ["+", "-", "*", "/"];
+      if (operators.includes(input.slice(-1)) || !input) {
+        setInput("Incomplete expression");
+        return;
+      }
+      const result = eval(input);
+
+      if (result === Infinity || result === -Infinity) {
+        setInput("can't divide by zero ");
+        return;
+      }
+
+      if (isNaN(result)) {
+        setInput("undefined ");
+        return;
+      }
+      setInput(result.toString());
+    } catch (error) {
+      setInput("Invalid expression");
+    }
   };
   return (
     <>
