@@ -3,34 +3,36 @@ import "./App.css";
 
 function App() {
   const [input, setInput] = useState("");
+  const [result, setResult] = useState("");
 
   const handleClick = (e) => {
     setInput((prev) => prev + e.target.value);
   };
   const handleReset = () => {
     setInput("");
+    setResult("");
   };
   const calculate = () => {
     try {
       const operators = ["+", "-", "*", "/"];
       if (operators.includes(input.slice(-1)) || !input) {
-        setInput("Incomplete expression");
+        setResult("Error");
         return;
       }
-      const result = eval(input);
+      const output = eval(input);
 
-      if (result === Infinity || result === -Infinity) {
-        setInput("can't divide by zero ");
+      if (output === Infinity || output === -Infinity) {
+        setResult("Infinity");
         return;
       }
 
-      if (isNaN(result)) {
-        setInput("undefined ");
+      if (isNaN(output)) {
+        setResult("NaN");
         return;
       }
-      setInput(result.toString());
-    } catch (error) {
-      setInput("Invalid expression");
+      setResult(output.toString());
+    } catch {
+      setResult("Error");
     }
   };
   return (
@@ -38,6 +40,7 @@ function App() {
       <div className="container">
         <h1>React calculator</h1>
         <input type="text" value={input} required />
+        <div className="result">{result}</div>
         <br></br>
         <div className="buttons">
           <button value={7} onClick={handleClick}>
